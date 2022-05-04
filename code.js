@@ -1,5 +1,5 @@
 //const {io}=require('socket.io')
-const n=prompt("Enter your name")
+// const n=prompt("Enter your name")
     // const {io}=require('socket.io-client/dist/socket.io.js')
     const socket=io("https://miniasterpiece.herokuapp.com/")
     socket.on("connection")
