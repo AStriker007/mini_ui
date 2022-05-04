@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChitChat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="node_modules/socket.io/client-dist/socket.io.js"></script>
+</head>
+<body class="bg-gray-200">
+    
+    <div>
+
+    <nav class="flex justify-center p-4"><img src="./chat-bubbles-with-ellipsis.png " class="h-10" alt="logo"></nav>
+    
+    <div class=" shadow-lg container px-4 h-80 w-auto border-2 bg-white mx-10 border-black overflow-y-auto" id="x"></div>
+    
+   <div class="float-right px-10 pt-4"><input type="text" class="message shadow-lg outline-none">
+    <button class=" shadow-lg bg-gray-200 hover:bg-gray-300 text-black py-1 px-2 rounded" onclick="SendMsg()">Send</button></div> 
+    
+    </div>
+
+<script>
+    const socket=io("https://miniasterpiece.herokuapp.com/")
+    socket.on("connection")
+    const name=prompt("Enter your name")
+    socket.emit("user-joined",name)
+    socket.on("user-joined",(name)=>{
+        display(`${name} joined`,"float-left")
+        // const sc=document.getElementById("x")
+        // sc.scrollTop=sc.scrollHeight
+    })
+
+    socket.on("send-msg",(msg)=>{
+        display(msg,"float-left")
+        // const sc=document.getElementById("x")
+        // sc.scrollTop=sc.scrollHeight
+    })
+
+    socket.on("user-left",name=>{
+        display(`${name} left`,"float-left")
+        // const sc=document.getElementById("x")
+        // sc.scrollTop=sc.scrollHeight
+    })
+    
+    const display=(message,position_class)=>{
+        const container=document.querySelector(".container")
+        const newElement=document.createElement("div")
+        newElement.classList.add(position_class,"bg-gray-200","rounded","clear-both","p-1","m-1")
+        newElement.innerText=message
+        container.append(newElement)
+        const sc=document.getElementById("x")
+        sc.scrollTop=sc.scrollHeight
+        }
+
+    const SendMsg=()=>{
+        const msg=document.querySelector(".message")
+        const msgInput=msg.value
+        display(msgInput,"float-right")
+        socket.emit("send-msg",msgInput)
+        msg.value=""
+    }    
+</script>
+</body>
+</html>
