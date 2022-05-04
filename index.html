@@ -24,6 +24,8 @@
     </div>
 
 <script>
+    const n=prompt("Enter your name")
+    // const {io}=require('socket.io-client/dist/socket.io.js')
     const socket=io("https://miniasterpiece.herokuapp.com/")
     socket.on("connection")
     const name=prompt("Enter your name")
