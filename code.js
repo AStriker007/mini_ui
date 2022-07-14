@@ -3,8 +3,8 @@
     // const {io}=require('socket.io-client/dist/socket.io.js')
     const socket=io("https://miniasterpiece.herokuapp.com/")
     socket.on("connection")
-    const name=prompt("Enter your name")
-    socket.emit("user-joined",name)
+    const Name=prompt("Enter your name")
+    socket.emit("user-joined",Name)
     socket.on("user-joined",(name)=>{
         display(`${name} joined`,"float-left")
         // const sc=document.getElementById("x")
@@ -12,7 +12,7 @@
     })
 
     socket.on("send-msg",(msg)=>{
-        display(msg,"float-left")
+        display(`${msg.name}:${msg.message}`,"float-left")
         // const sc=document.getElementById("x")
         // sc.scrollTop=sc.scrollHeight
     })
@@ -36,7 +36,7 @@
     const SendMsg=()=>{
         const msg=document.querySelector(".message")
         const msgInput=msg.value
-        display(msgInput,"float-right")
+        display(`You:${msgInput}`,"float-right")
         socket.emit("send-msg",msgInput)
         msg.value=""
     }    
